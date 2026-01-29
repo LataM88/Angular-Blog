@@ -15,6 +15,7 @@ export const routes: Routes = [
     {
         path: 'favorites',
         loadComponent: () => import('./components/favorites/favorites').then(m => m.Favorites),
+        canActivate: [authGuard]
     },
     {
         path: 'home',

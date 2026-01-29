@@ -1,13 +1,27 @@
 
 import { Request, Response } from 'express';
-import { User } from '../models/user.model';
+import { User, IUser } from '../models/user.model';
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const createUser = async (req: Request, res: Response) => {
     try {
         const newUser = new User(req.body);
         const savedUser = await newUser.save();
-        res.json(savedUser);
-    } catch (err) {
+
+        // Return user without password
+        const userObj = savedUser.toObject();
+        // @ts-ignore
+        delete userObj.password;
+
+        res.json(userObj);
+    } catch (err: any) {
+        if (err.code === 11000) {
+            res.status(400).json({ error: 'User already exists' });
+            return;
+        }
         res.status(500).json({ error: 'Failed to create user' });
     }
 };
@@ -15,29 +29,37 @@ export const createUser = async (req: Request, res: Response) => {
 export const authenticateUser = async (req: Request, res: Response) => {
     try {
         const { login, password } = req.body;
-        // Simple check - in production use hashing!
+
         const user = await User.findOne({
-            $or: [{ name: login }, { email: login }],
-            password: password
+            $or: [{ name: login }, { email: login }]
         });
 
-        if (user) {
-            const payload = JSON.stringify({
+        if (!user) {
+            res.status(401).json({ error: 'Invalid credentials' });
+            return;
+        }
+
+        const isMatch = await user.comparePassword(password);
+
+        if (isMatch) {
+            const payload = {
                 userId: user._id,
                 name: user.name,
-                exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) // 24h
-            });
-            // Simple base64url encoding (approximate)
-            const base64Payload = Buffer.from(payload).toString('base64').replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_');
-            const header = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9';
-            const signature = 'dummySignature';
-            const token = `${header}.${base64Payload}.${signature}`;
+                email: user.email
+            };
+
+            const token = jwt.sign(
+                payload,
+                process.env.JWT_SECRET as string,
+                { expiresIn: '24h' }
+            );
 
             res.json({ token });
         } else {
             res.status(401).json({ error: 'Invalid credentials' });
         }
     } catch (err) {
+        console.error(err);
         res.status(500).json({ error: 'Authentication failed' });
     }
 };
