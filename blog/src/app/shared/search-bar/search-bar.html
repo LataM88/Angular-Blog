@@ -1,0 +1,10 @@
+<div class="search-wrapper">
+    <i class="fa fa-search search-icon"></i>
+    <input type="text" placeholder="Szukaj postów..." [(ngModel)]="filterText" (ngModelChange)="sendFilter()"
+        class="search-input" textFormat>
+    @if (filterText) {
+    <button class="clear-btn" (click)="clearSearch()">
+        <i class="fa fa-times"></i>
+    </button>
+    }
+</div>

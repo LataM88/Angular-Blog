@@ -1,0 +1,15 @@
+<h3>Ulubione Posty</h3>
+@if (loading) {
+<p>Loading...</p>
+} @else {
+@for (item of favorites; track item.id) {
+<div class="mb-3">
+    <blog-item [image]="item.image" [text]="item.text" [id]="item.id">
+    </blog-item>
+</div>
+} @empty {
+<div class="alert alert-info mt-3">
+    Nie masz jeszcze żadnych ulubionych postów.
+</div>
+}
+}

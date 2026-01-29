@@ -1,0 +1,76 @@
+/* Blog Item Details Page Styles */
+:host {
+    display: block;
+    padding: 2rem 0;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.card {
+    margin-bottom: 2rem;
+}
+
+.card-img-top {
+    max-height: 500px;
+    object-fit: cover;
+}
+
+.card-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
+
+/* Rating Section */
+.star-rating {
+    display: inline-flex;
+    gap: 0.25rem;
+}
+
+.star-rating .fa-star,
+.star-rating .fa-star-o {
+    font-size: 1.5rem;
+    transition: all var(--transition-fast);
+}
+
+.star-rating .fa-star {
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
+}
+
+/* Poll Section */
+.progress {
+    height: 24px !important;
+    background: var(--bg-primary);
+}
+
+.progress-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+/* Edit Form */
+.card-body h2 {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+span {
+    color: var(--text-primary);
+}

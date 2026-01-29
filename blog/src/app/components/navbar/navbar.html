@@ -1,0 +1,39 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a class="nav-brand" [routerLink]="['/']">
+            <span class="brand-text">Blog</span>
+        </a>
+
+        <div class="nav-links">
+            <a class="nav-link" [routerLink]="['/']" routerLinkActive="active"
+                [routerLinkActiveOptions]="{exact: true}">
+                <i class="fa fa-home"></i> Strona główna
+            </a>
+            @if (authService.isLoggedIn()) {
+
+            <a class="nav-link" [routerLink]="['/favorites']" routerLinkActive="active">
+                <i class="fa fa-heart"></i> Ulubione
+            </a>
+            }
+        </div>
+
+        <div class="nav-actions">
+            @if (!authService.isLoggedIn()) {
+            <a class="btn btn-ghost" [routerLink]="['/login']">
+                <i class="fa fa-sign-in"></i> Zaloguj
+            </a>
+            <a class="btn btn-primary" [routerLink]="['/signup']">
+                <i class="fa fa-user-plus"></i> Rejestracja
+            </a>
+            } @else {
+            <div class="user-info">
+                <span class="user-avatar">{{ authService.currentUser?.name?.charAt(0) || 'U' }}</span>
+                <span class="user-name">{{ authService.currentUser?.name }}</span>
+            </div>
+            <button class="btn btn-ghost" (click)="signOut()">
+                <i class="fa fa-sign-out"></i> Wyloguj
+            </button>
+            }
+        </div>
+    </div>
+</nav>

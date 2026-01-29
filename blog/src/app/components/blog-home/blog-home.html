@@ -1,0 +1,21 @@
+<div class="blog-home">
+    <!-- Toolbar -->
+    <div class="blog-toolbar">
+        <div class="search-section">
+            <app-search-bar (name)="getName($event)"></app-search-bar>
+        </div>
+        <div class="action-buttons">
+            <button class="btn btn-action" (click)="refreshPosts()">
+                <i class="fa fa-refresh"></i>
+                <span>Odśwież</span>
+            </button>
+            <a routerLink="/favorites" class="btn btn-favorites">
+                <i class="fa fa-heart"></i>
+                <span>Ulubione</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Blog Posts -->
+    <blog [filterText]="filterText"></blog>
+</div>

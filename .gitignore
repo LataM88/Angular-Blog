@@ -1,0 +1,43 @@
+# General
+node_modules/
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build Outputs
+dist/
+build/
+out-tsc/
+bazel-out/
+tmp/
+
+# Angular
+.angular/cache
+.sass-cache/
+connect.lock
+coverage/
+libpeerconnection.log
+testem.log
+typings/
+__screenshots__/
+.project
+.settings/
+.classpath
+
+# Server / Universal
+.pnpm-store
+logs/

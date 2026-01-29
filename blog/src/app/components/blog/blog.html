@@ -1,0 +1,20 @@
+<add-post (postAdded)="getAll()"></add-post>
+@if (!items$) {
+<p>Loading...</p>
+} @else {
+@for (item of items$ | filter:filterText | paginate:currentPage:itemsPerPage; track item.id) {
+<div>
+    <blog-item [image]="item.image" [text]="item.text" [id]="item.id" [authorId]="item.authorId" [title]="item.title"
+        [likes]="item.likes" [likedBy]="item.likedBy" (postDeleted)="onPostDeleted($event)" (postUpdated)="getAll()">
+    </blog-item>
+</div>
+} @empty {
+<div class="alert alert-warning mt-3">
+    Brak wyników spełniających kryteria wyszukiwania
+</div>
+}
+
+<app-pagination [totalItems]="(items$ | filter:filterText)?.length || 0" [itemsPerPage]="itemsPerPage"
+    [currentPage]="currentPage" (pageChange)="onPageChange($event)">
+</app-pagination>
+}

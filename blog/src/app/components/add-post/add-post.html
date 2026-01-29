@@ -1,0 +1,105 @@
+@if (isLoggedIn) {
+<div class="add-post-container">
+    <div class="add-post-header">
+        <div class="header-icon">
+            <i class="fa fa-pencil-square-o"></i>
+        </div>
+        <div class="header-text">
+            <h3>Utwórz nowy post</h3>
+            <p>Podziel się swoimi przemyśleniami ze światem</p>
+        </div>
+    </div>
+
+    <div class="add-post-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fa fa-heading"></i> Tytuł
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="title"
+                    placeholder="Nadaj tytuł swojemu postowi...">
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fa fa-align-left"></i> Treść
+                </label>
+                <textarea class="form-control" [(ngModel)]="text" placeholder="O czym chcesz napisać?"
+                    rows="4"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label class="form-label">
+                    <i class="fa fa-image"></i> URL obrazka
+                </label>
+                <input type="text" class="form-control" [(ngModel)]="image" placeholder="https://example.com/image.jpg">
+            </div>
+        </div>
+
+        <!-- Poll Toggle -->
+        <div class="poll-toggle">
+            <label class="toggle-switch">
+                <input type="checkbox" [(ngModel)]="pollEnabled">
+                <span class="slider"></span>
+            </label>
+            <span class="toggle-label">
+                <i class="fa fa-bar-chart"></i> Dodaj ankietę do posta
+            </span>
+        </div>
+
+        <!-- Poll Configuration -->
+        @if (pollEnabled) {
+        <div class="poll-config">
+            <div class="poll-header">
+                <i class="fa fa-bar-chart"></i> Konfiguracja ankiety
+            </div>
+            <div class="poll-body">
+                <div class="form-group">
+                    <label class="form-label">Pytanie ankiety</label>
+                    <input type="text" class="form-control" [(ngModel)]="pollQuestion"
+                        placeholder="Jak oceniasz ten post?">
+                </div>
+
+                <label class="form-label">Opcje odpowiedzi</label>
+                @for (option of pollOptions; track trackByIndex($index); let i = $index) {
+                <div class="poll-option">
+                    <span class="option-number">{{ i + 1 }}</span>
+                    <input type="text" class="form-control" [(ngModel)]="pollOptions[i]"
+                        placeholder="Opcja {{ i + 1 }}">
+                    @if (pollOptions.length > 2) {
+                    <button class="btn-remove" type="button" (click)="removePollOption(i)">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    }
+                </div>
+                }
+
+                <button class="btn-add-option" (click)="addPollOption()">
+                    <i class="fa fa-plus"></i> Dodaj opcję
+                </button>
+            </div>
+        </div>
+        }
+
+        <div class="form-actions">
+            <button class="btn btn-primary btn-publish" (click)="addPost()" [disabled]="!title || !text">
+                <i class="fa fa-paper-plane"></i> Opublikuj post
+            </button>
+        </div>
+    </div>
+</div>
+} @else {
+<div class="login-prompt">
+    <div class="prompt-icon">
+        <i class="fa fa-lock"></i>
+    </div>
+    <p>Zaloguj się aby tworzyć posty</p>
+    <a routerLink="/login" class="btn btn-primary">
+        <i class="fa fa-sign-in"></i> Zaloguj się
+    </a>
+</div>
+}

@@ -1,0 +1,45 @@
+<div class="auth-container">
+    <div class="auth-image">
+        <!-- Miejsce na Twoje zdjęcie - zamień src na ścieżkę do swojego obrazka -->
+        <img src="assets/images/authbg.jpg" alt="Login background">
+    </div>
+    <div class="auth-form">
+        <div class="auth-form-inner">
+            <div class="auth-header">
+                <h1>Logowanie</h1>
+                <p>Wprowadź swoje dane aby się zalogować</p>
+            </div>
+
+            <form autocomplete="off">
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fa fa-user"></i> Login
+                    </label>
+                    <input [(ngModel)]="credentials.login" type="text" class="form-control" name="username"
+                        placeholder="Nazwa użytkownika">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">
+                        <i class="fa fa-lock"></i> Hasło
+                    </label>
+                    <input [(ngModel)]="credentials.password" type="password" class="form-control" name="password"
+                        placeholder="Twoje hasło">
+                </div>
+
+                @if (loginError) {
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-circle"></i> Nieprawidłowy login lub hasło
+                </div>
+                }
+
+                <button (click)="signIn()" class="btn btn-primary btn-block" type="button">
+                    <i class="fa fa-sign-in"></i> Zaloguj się
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Nie masz konta? <a routerLink="/signup">Zarejestruj się</a></p>
+            </div>
+        </div>
+    </div>
+</div>

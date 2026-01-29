@@ -1,0 +1,66 @@
+<article class="post-card">
+    @if (!isEditing) {
+    <!-- Image Section -->
+    <div class="post-image" [routerLink]="['/blog/detail', id]">
+        <blog-item-image [image]="image"></blog-item-image>
+    </div>
+
+    <!-- Content Section -->
+    <div class="post-content">
+        <h3 class="post-title" [routerLink]="['/blog/detail', id]">{{ title }}</h3>
+        <p class="post-excerpt">{{ (text || '') | slice:0:120 }}{{ (text?.length || 0) > 120 ? '...' : '' }}</p>
+
+        <div class="read-more-wrapper">
+            <a [routerLink]="['/blog/detail', id]" class="btn-read-more">
+                Więcej <i class="fa fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Actions Footer -->
+    <div class="post-actions">
+        <div class="action-left">
+            <button class="action-btn like-btn" [class.active]="isLiked" (click)="isLoggedIn && toggleLike()"
+                [disabled]="!isLoggedIn"
+                [title]="isLoggedIn ? (isLiked ? 'Cofnij polubienie' : 'Polub') : 'Zaloguj się aby polubić'">
+                <i class="fa" [ngClass]="{'fa-thumbs-up': isLiked, 'fa-thumbs-o-up': !isLiked}"></i>
+                <span>{{ likesCount }}</span>
+            </button>
+            <button class="action-btn favorite-btn" [class.active]="isFavorite" (click)="toggleFavorite()"
+                [title]="isFavorite ? 'Usuń z ulubionych' : 'Dodaj do ulubionych'">
+                <i class="fa" [ngClass]="{'fa-heart': isFavorite, 'fa-heart-o': !isFavorite}"></i>
+            </button>
+        </div>
+        @if (isAuthor) {
+        <div class="action-right">
+            <button class="action-btn edit-btn" (click)="startEdit()" title="Edytuj post">
+                <i class="fa fa-pencil"></i>
+            </button>
+            <button class="action-btn delete-btn" (click)="deletePost()" title="Usuń post">
+                <i class="fa fa-trash-o"></i>
+            </button>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="edit-form">
+        <h4>Edytuj post</h4>
+        <div class="form-group">
+            <label class="form-label">Tytuł</label>
+            <input type="text" class="form-control" [(ngModel)]="editTitle">
+        </div>
+        <div class="form-group">
+            <label class="form-label">Treść</label>
+            <textarea class="form-control" rows="4" [(ngModel)]="editText"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-label">Obrazek (URL)</label>
+            <input type="text" class="form-control" [(ngModel)]="editImage">
+        </div>
+        <div class="edit-actions">
+            <button class="btn btn-primary" (click)="saveEdit()">Zapisz</button>
+            <button class="btn btn-secondary" (click)="cancelEdit()">Anuluj</button>
+        </div>
+    </div>
+    }
+</article>
